@@ -4,12 +4,6 @@ Complex Economic System Simulation
 This file simulates a complex economic system with multiple agents, market dynamics, and feedback loops.
 The simulation includes various agent strategies, network effects, and emergent behaviors.
 
-Dependencies:
-- networkx
-- matplotlib
-- numpy
-- pandas
-
 Note:
 This is a simplified model and does not capture all the complexities of real-world economic systems.
 The accuracy of the simulation depends on the assumptions made and the specific parameters used.
@@ -26,6 +20,10 @@ import random
 import pandas as pd
 from matplotlib.colors import LinearSegmentedColormap
 import matplotlib.animation as animation
+import os
+
+# Ensure the output directory exists
+os.makedirs('output', exist_ok=True)
 
 
 class EconomicAgent:
@@ -250,7 +248,8 @@ class ComplexEconomicSystem:
         return plt.gcf()
 
     def visualize_price_history(self):
-        """Visualize the market price history"""
+        """Visualize the market price history
+        call run_simulation before calling this method to get the price history"""
         plt.figure(figsize=(10, 6))
         plt.plot(self.price_history, 'b-', linewidth=2)
         plt.title("Market Price Evolution")
@@ -260,7 +259,9 @@ class ComplexEconomicSystem:
         return plt.gcf()
 
     def analyze_wealth_distribution(self):
-        """Analyze and visualize the wealth distribution of agents"""
+        """Analyze and visualize the wealth distribution of agents
+        Call run_simulation before calling this method to get the final wealth distribution
+        """
         plt.figure(figsize=(10, 6))
 
         final_wealth = [agent.wealth for agent in self.agents]
@@ -278,7 +279,9 @@ class ComplexEconomicSystem:
         return plt.gcf()
 
     def animate_wealth_over_time(self, sample_size=10):
-        """Create an animation of wealth changes over time for a sample of agents"""
+        """Create an animation of wealth changes over time for a sample of agents
+        Call run_simulation before calling this method to get the agent wealth history
+        """
         # Select a subset of agents to visualize
         sampled_agents = random.sample(self.agents, min(sample_size, len(self.agents)))
 
@@ -322,7 +325,9 @@ class ComplexEconomicSystem:
         return anim
 
     def create_heatmap_analysis(self):
-        """Create a heatmap showing relationships between variables"""
+        """Create a heatmap showing relationships between variables
+        Call run_simulation before calling this method to get the data
+        """
         data = {
             'Time': list(range(len(self.price_history))),
             'Price': self.price_history
@@ -373,6 +378,7 @@ class ComplexEconomicSystem:
         plt.title('Correlation Heatmap Between Economic Variables')
         plt.tight_layout()
         return plt.gcf()
+
 
 
 def analyze_path_dependence(num_simulations=5, steps=100, initial_price_range=(80, 120)):
@@ -598,40 +604,40 @@ def main():
     # 1. Network visualization
     print("1. Network visualization")
     network_fig = system.plot_network(highlight_attribute='type')
-    network_fig.savefig('economic_network.png')
+    network_fig.savefig('output/economic_network.png')
 
     network_fig2 = system.plot_network(highlight_attribute='strategy')
-    network_fig2.savefig('economic_network_by_strategy.png')
+    network_fig2.savefig('output/economic_network_by_strategy.png')
 
     # 2. Price evolution
     print("2. Price evolution")
     price_fig = system.visualize_price_history()
-    price_fig.savefig('price_evolution.png')
+    price_fig.savefig('output/price_evolution.png')
 
     # 3. Wealth distribution
     print("3. Wealth distribution")
     wealth_fig = system.analyze_wealth_distribution()
-    wealth_fig.savefig('wealth_distribution.png')
+    wealth_fig.savefig('output/wealth_distribution.png')
 
     # 4. Path dependence
     print("4. Path dependence")
     path_fig = analyze_path_dependence(num_simulations=5, steps=100)
-    path_fig.savefig('path_dependence.png')
+    path_fig.savefig('output/path_dependence.png')
 
     # 5. Feedback loops
     print("5. Feedback loops")
     feedback_fig = demonstrate_feedback_loops()
-    feedback_fig.savefig('feedback_loops.png')
+    feedback_fig.savefig('output/feedback_loops.png')
 
     # 6. Emergent behaviors
     print("6. Emergent behaviors")
     emergent_fig = analyze_emergent_behaviors(steps=100)
-    emergent_fig.savefig('emergent_behaviors.png')
+    emergent_fig.savefig('output/emergent_behaviors.png')
 
     # 7. Strategy comparison
     print("7. Strategy comparison")
     strategy_fig = compare_strategies()
-    strategy_fig.savefig('strategy_comparison.png')
+    strategy_fig.savefig('output/strategy_comparison.png')
 
     print("Simulation and analysis complete!")
     print("Files saved as PNG images in the current directory.")
